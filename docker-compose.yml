@@ -8,8 +8,6 @@ services:
             POSTGRES_USER: admin
             POSTGRES_PASSWORD: admin
             POSTGRES_DB: pbcloud_local
-        volumes:
-            - ./.docker/pgsql/data/:/var/lib/postgresql/data:rw
         ports:
             - 5437:5432
     php: # docker-compose run php bash

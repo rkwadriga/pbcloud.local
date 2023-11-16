@@ -23,10 +23,10 @@ class Provider
     #[ORM\Column(length: 64)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 16)]
+    #[ORM\Column(length: 32)]
     private ?string $alias = null;
 
-    #[ORM\Column(length: 16)]
+    #[ORM\Column(length: 32)]
     private ?string $api_key = null;
 
     #[ORM\Column(length: 64)]

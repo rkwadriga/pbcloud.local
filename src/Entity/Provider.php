@@ -6,6 +6,8 @@ use App\Entity\Enum\ProviderTypeEnum;
 use App\Entity\Enum\IsActiveStatusEnum;
 use App\Entity\Trait\TimestampableEntityTrait;
 use App\Repository\ProviderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProviderRepository::class)]
@@ -41,9 +43,12 @@ class Provider
     #[ORM\Column]
     private array $extra = [];
 
+    #[ORM\OneToMany(mappedBy: 'provider', targetEntity: Shop::class, orphanRemoval: true)]
+    private Collection $shops;
+
     public function __construct()
     {
-
+        $this->shops = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -131,6 +136,36 @@ class Provider
     public function setExtra(array $extra): static
     {
         $this->extra = $extra;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Shop>
+     */
+    public function getShops(): Collection
+    {
+        return $this->shops;
+    }
+
+    public function addShop(Shop $shop): static
+    {
+        if (!$this->shops->contains($shop)) {
+            $this->shops->add($shop);
+            $shop->setProvider($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShop(Shop $shop): static
+    {
+        if ($this->shops->removeElement($shop)) {
+            // set the owning side to null (unless already changed)
+            if ($shop->getProvider() === $this) {
+                $shop->setProvider(null);
+            }
+        }
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Constants\ProviderAliases;
 use App\Entity\Enum\IsActiveStatusEnum;
 use App\Entity\Enum\ProviderTypeEnum;
 use App\Factory\ProviderFactory;
@@ -14,7 +15,7 @@ class ProviderFixtures extends Fixture
     {
         ProviderFactory::createOne([
             'name' => 'Local',
-            'alias' => 'local',
+            'alias' => ProviderAliases::LOCAL,
             'api_key' => 'local',
             'type' => ProviderTypeEnum::LOCAL,
             'status' => IsActiveStatusEnum::ACTIVE,
@@ -22,7 +23,7 @@ class ProviderFixtures extends Fixture
 
         ProviderFactory::createOne([
             'name' => 'dev24.pocketbook.de',
-            'alias' => 'dev24_pocketbook_de',
+            'alias' => ProviderAliases::DEV24_POCKETBOOK_DE,
             'api_key' => 'evGEiQi1',
             'api_secret' => '6UAzm7fVbRpObjOpNbumuVEUF7E0yZL3OYJArD1',
             'type' => ProviderTypeEnum::PARTNER,
@@ -40,7 +41,7 @@ class ProviderFixtures extends Fixture
 
         ProviderFactory::createOne([
             'name' => 'dev24.pocketbook.ua',
-            'alias' => 'dev24_pocketbook_ua',
+            'alias' => ProviderAliases::DEV24_POCKETBOOK_UA,
             'api_key' => '1JlAo3V',
             'api_secret' => 'EM5cIYD07Wxgk-V4tsguv8u_R-Br3dxiIM99dF',
             'type' => ProviderTypeEnum::PARTNER,
@@ -58,7 +59,7 @@ class ProviderFixtures extends Fixture
 
         ProviderFactory::createOne([
             'name' => 'dev24.pocketbook.es',
-            'alias' => 'dev24_pocketbook_es',
+            'alias' => ProviderAliases::DEV24_POCKETBOOK_ES,
             'api_key' => 'SgeJ25Oa',
             'api_secret' => '_13E4Wj3huMRgI1LQCvVO6U2A7pH_gM93hbB',
             'type' => ProviderTypeEnum::PARTNER,

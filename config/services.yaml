@@ -31,3 +31,7 @@ services:
         bind:
             $format: 'form'
 
+    App\Components\Auth\TokenGenerator:
+        bind:
+            $lifetime: '%env(resolve:TOKEN_LIFETIME)%'
+

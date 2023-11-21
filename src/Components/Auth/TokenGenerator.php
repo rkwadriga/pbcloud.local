@@ -18,6 +18,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class TokenGenerator extends AbstractComponent
 {
     public function __construct(
+        private readonly string $lifetime,
         private readonly EntityManagerInterface $entityManager
     ) {}
 
@@ -33,7 +34,7 @@ class TokenGenerator extends AbstractComponent
             ->setAccessToken($this->generateHash($token))
             ->setRefreshToken($this->generateHash($token))
             ->setCreatedAt(new DateTimeImmutable())
-            ->setExpiredAt(new DateTime('+3 hours'));
+            ->setExpiredAt(new DateTime('+' . $this->lifetime));
         ;
 
         $this->entityManager->persist($token);

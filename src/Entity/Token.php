@@ -30,10 +30,10 @@ class Token
     #[ORM\Column(columnDefinition: "token_type_enum NOT NULL")]
     private TokenTypeEnum $type = TokenTypeEnum::USER;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 40)]
     private ?string $access_token = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 40)]
     private ?string $refresh_token = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -64,6 +64,7 @@ class Token
     public function setOwner(?User $owner): static
     {
         $this->owner = $owner;
+        $this->setProvider($owner->getProvider());
 
         return $this;
     }

@@ -8,12 +8,13 @@ use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\Index(columns: ['provider_id', 'email'], name: 'user_provider_email_idx')]
 #[ORM\Index(columns: ['provider_id', 'provider_user_id', 'shop_id'], name: 'user_provider_id_shop_idx')]
-class User implements PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableEntityTrait;
 
@@ -161,4 +162,16 @@ class User implements PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return 'id';
+    }
+
+
 }

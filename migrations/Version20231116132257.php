@@ -22,7 +22,7 @@ final class Version20231116132257 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SEQUENCE token_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TYPE token_type_enum AS ENUM (\'provider\',\'user\')');
-        $this->addSql('CREATE TABLE token (id INT NOT NULL, provider_id INT NOT NULL, owner_id INT DEFAULT NULL, type token_type_enum NOT NULL, access_token VARCHAR(255) NOT NULL, refresh_token VARCHAR(255) NOT NULL, expired_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE token (id INT NOT NULL, provider_id INT NOT NULL, owner_id INT DEFAULT NULL, type token_type_enum NOT NULL, access_token VARCHAR(40) NOT NULL, refresh_token VARCHAR(40) NOT NULL, expired_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_5F37A13BA53A8AA ON token (provider_id)');
         $this->addSql('CREATE INDEX IDX_5F37A13B7E3C61F9 ON token (owner_id)');
         $this->addSql('CREATE INDEX token_access_token_idx ON token (access_token)');

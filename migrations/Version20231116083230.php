@@ -22,7 +22,7 @@ final class Version20231116083230 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SEQUENCE provider_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TYPE provider_type_enum AS ENUM (\'partner\',\'local\')');
-        $this->addSql('CREATE TABLE provider (id INT NOT NULL, name VARCHAR(64) NOT NULL, alias VARCHAR(32) NOT NULL, api_key VARCHAR(32) NOT NULL, api_secret VARCHAR(64) NOT NULL, type provider_type_enum NOT NULL, status is_active_status_enum NOT NULL, extra JSON NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE provider (id INT NOT NULL, name VARCHAR(64) NOT NULL, alias VARCHAR(32) NOT NULL, api_key VARCHAR(32) NOT NULL, api_secret VARCHAR(64) NOT NULL, api_secret VARCHAR(64) NOT NULL, type provider_type_enum NOT NULL, status is_active_status_enum NOT NULL, extra JSON NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX provider_alias_idx ON provider (alias)');
         $this->addSql('COMMENT ON COLUMN provider.created_at IS \'(DC2Type:datetime_immutable)\'');
     }

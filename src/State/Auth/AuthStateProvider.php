@@ -8,9 +8,13 @@ namespace App\State\Auth;
 
 use ApiPlatform\Metadata;
 use ApiPlatform\State\ProviderInterface;
+use App\ApiResource\AuthProvidersDto;
+use App\ApiResource\AuthTokenDto;
 use App\Components\Auth\AuthService;
+use Symfony\Component\Asset\Exception\LogicException;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Encoder\ChainEncoder;
 
 class AuthStateProvider implements ProviderInterface
 {
@@ -24,22 +28,30 @@ class AuthStateProvider implements ProviderInterface
         $request = $context['request'];
 
         if ($operation instanceof Metadata\Get) {
-            if (!isset($context['filters']) || !isset($context['filters']['username'])) {
+            $dto = $request->attributes->get('data');
+            if (!($dto instanceof AuthProvidersDto)) {
+                throw new LogicException('Missed Deserializer for content type "application/x-www-form-urlencoded"');
+            }
+
+            if ($dto->username === null) {
                 throw new BadRequestException('Required param "username" is missed');
             }
 
-            return $this->authService->getAuthOptions($operation->getClass(), $context['filters']);
+            return $this->authService->getAuthOptions($dto);
         } elseif ($operation instanceof Metadata\Post) {
-            $username = $request->request->get('username');
-            $password = $request->request->get('password');
-            if (!$username || !$password) {
+            $dto = $request->attributes->get('data');
+            if (!($dto instanceof AuthTokenDto)) {
+                throw new LogicException('Missed Deserializer for content type "application/x-www-form-urlencoded"');
+            }
+
+            if ($dto->providerAlias === null) {
+                throw new BadRequestException('Required uri-param "providerAlias" is missed');
+            }
+            if ($dto->username === null || $dto->password === null) {
                 throw new BadRequestException('Params "username" and "password" are required');
             }
 
-            $attributes = array_merge($uriVariables, ['username' => $username, 'password' => $password]);
-
-            /** @TODO Fix bug Deserialization for the format "form_urlencoded" is not supported */
-            return $this->authService->login($operation->getClass(), $attributes);
+            return $this->authService->login($dto);
         }
 
         return null;

@@ -17,19 +17,17 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Metadata\Post(
             uriTemplate: '/auth/login/{providerAlias}',
-            inputFormats: ['form_urlencoded'],
-            outputFormats: ['json'],
             uriVariables: [
                 'providerAlias' => '',
             ],
             requirements: [
                 'providerAlias' => '\w+',
             ],
-            denormalizationContext: ['format' => 'json'],
             security: 'is_granted("PUBLIC_ACCESS")',
         )
     ],
-    provider: AuthStateProvider::class
+    provider: AuthStateProvider::class,
+    //processor: AuthTokenDtoStateProcessor::class,
 )]
 class AuthTokenDto extends AbstractDto
 {
@@ -45,9 +43,12 @@ class AuthTokenDto extends AbstractDto
     #[Assert\NotBlank]
     public ?string $password = null;
 
+    #[Metadata\ApiProperty(example: "dToyOjg3ZWFkNDU3ZDNhZjY5M2I2ZGQzMmQ0ODI2MTM3N2Nk")]
     public ?string $access_token = null;
 
+    #[Metadata\ApiProperty(example: "dToyOjA1YmViNzU1NjgzOGVhYmFkODJhMWYxNjc3MTQ4NzBi")]
     public ?string $refresh_token = null;
 
+    #[Metadata\ApiProperty(example: "2023-11-21T17:33:49+00:00")]
     public ?DateTime $expired = null;
 }

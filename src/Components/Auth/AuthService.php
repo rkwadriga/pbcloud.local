@@ -10,24 +10,19 @@ use App\ApiResource\AuthProvidersDto;
 use App\ApiResource\AuthTokenDto;
 use App\Components\AbstractComponent;
 use App\Constants\ProviderAliases;
-use App\Dto\DtoFactory;
 use App\Repository\ProviderRepository;
 use App\Repository\UserRepository;
 
 class AuthService extends AbstractComponent
 {
     public function __construct(
-        private readonly DtoFactory $dtoFactory,
         private readonly TokenGenerator $tokenGenerator,
         private readonly ProviderRepository $providerRepository,
         private readonly UserRepository $userRepository
     ) {}
 
-    public function getAuthOptions(string $dtoClass, array $attributes): AuthProvidersDto
+    public function getAuthOptions(AuthProvidersDto $dto): AuthProvidersDto
     {
-        /** @var AuthProvidersDto $dto */
-        $dto = $this->dtoFactory->create($dtoClass, $attributes);
-
         $dto->auth_providers = [
             ProviderAliases::DEV24_POCKETBOOK_DE => [
                 'name' => 'pocketbook.de',
@@ -49,11 +44,8 @@ class AuthService extends AbstractComponent
         return $dto;
     }
 
-    public function login(string $dtoClass, array $attributes): AuthTokenDto
+    public function login(AuthTokenDto $dto): AuthTokenDto
     {
-        /** @var AuthTokenDto $dto */
-        $dto = $this->dtoFactory->create($dtoClass, $attributes);
-
         $provider = $this->providerRepository->findOneByAlias($dto->providerAlias);
         if ($provider === null) {
             throw new ProviderNotFoundException(

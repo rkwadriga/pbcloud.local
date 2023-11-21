@@ -8,11 +8,11 @@ namespace App\ApiResource;
 
 use ApiPlatform\Metadata;
 use App\Dto\AbstractDto;
-use App\State\Auth\AuthStateProvider;
+use App\State\Auth\AuthProvidersDtoStateProvider;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[Metadata\ApiResource(
-    shortName: 'Auth',
+    shortName: 'Get Allowed for user providers',
     description: 'Retrieves the list of allowed for login providers',
     operations: [
         new Metadata\Get(
@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("PUBLIC_ACCESS")',
         )
     ],
-    provider: AuthStateProvider::class,
+    provider: AuthProvidersDtoStateProvider::class,
 )]
 class AuthProvidersDto extends AbstractDto
 {
